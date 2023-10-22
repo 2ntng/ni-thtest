@@ -122,7 +122,11 @@ $(document).on("click", "#btnsubmit", function () {
         processData: false,
         contentType: false,
         data: fdata,
+        beforeSend: function () {
+            loading_start();
+        },
         success: function (data) {
+            loading_end();
             $("#modal-form").modal('hide');
             Swal.fire(
                 'Berhasil ' + trigger.toLowerCase() + ' data!',
@@ -133,6 +137,7 @@ $(document).on("click", "#btnsubmit", function () {
             tblBarang.ajax.reload();
         },
         error: function (xhr, status, error) {
+            loading_end();
             if (xhr.status === 422) {
                 var errors = xhr.responseJSON.errors;
                 msg = '';
